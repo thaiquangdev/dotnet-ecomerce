@@ -1,0 +1,30 @@
+@{
+    var successMessage = TempData["SuccessMessage"] as string;
+    var errorMessage = TempData["ErrorMessage"] as string;
+    var infoMessage = TempData["InfoMessage"] as string;
+    var warningMessage = TempData["WarningMessage"] as string;
+}
+
+<script>
+    $(document).ready(function () {
+        @if (!string.IsNullOrEmpty(successMessage))
+        {
+            <text>toastr.success('@successMessage');</text>
+        }
+
+        @if (!string.IsNullOrEmpty(errorMessage))
+        {
+            <text>toastr.error('@errorMessage');</text>
+        }
+
+        @if (!string.IsNullOrEmpty(infoMessage))
+        {
+            <text>toastr.info('@infoMessage');</text>
+        }
+
+        @if (!string.IsNullOrEmpty(warningMessage))
+        {
+            <text>toastr.warning('@warningMessage');</text>
+        }
+    });
+</script>

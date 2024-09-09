@@ -1,0 +1,60 @@
+# Binaries
+*.dll
+*.exe
+*.pdb
+*.mdb
+*.log
+*.cache
+*.config
+
+# Build results
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bld/
+[Bb]in/
+[Oo]bj/
+
+# NuGet Packages
+packages/
+*.nupkg
+*.snupkg
+
+# Visual Studio
+.vscode/
+.vs/
+.vscode/settings.json
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# ASP.NET Scaffolding
+ScaffoldingReadMe.txt
+
+# Web-specific files
+libman.json
+wwwroot/lib/
+
+# NPM packages
+node_modules/
+
+# JetBrains Rider
+.idea/
+
+# Database files
+*.mdf
+*.ldf
+
+# Publish outputs
+publish/
+*.Publish.xml
+
+# Azure Web App publish profile
+PublishProfiles/
+
+# Resharper
+_ReSharper*/

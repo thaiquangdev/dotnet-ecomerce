@@ -1,0 +1,63 @@
+@model List<asp_mvc.Models.Cart>
+
+<h3>Chi tiết đơn hàng</h3>
+<table class="cart-table">
+    <thead>
+        <tr>
+            <th>Sản phẩm</th>
+            <th>Hình ảnh</th>
+            <th>Giá</th>
+            <th>Số lượng</th>
+            <th>Thành tiền</th>
+            <th>Hành động</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var cart in Model)
+        {
+            @foreach(var cartItem in cart.CartItems)
+            {
+                <tr>
+                    <td>
+                        <div class="cart-book-title">@cartItem.Product.Title</div>
+                        <div class="cart-book-author">@cartItem.Product.Author</div>
+                        <div class="cart-book-publisher">@cartItem.Product.Publisher.PublisherName</div>
+                    </td>
+                    <td>
+                        <img src="@cartItem.Product.Thumb" alt="Book Image" class="cart-book-image">
+                    </td>
+                    <td>
+                        <div class="cart-book-price">@cartItem.Price.ToString("N0")đ</div>
+                        <div class="cart-book-old-price">@cartItem.Product.PriceNew.ToString("N0")đ | - @cartItem.Product.Discount%</div>
+                    </td>
+                    <td>
+                        <form asp-action="UpdateQuantity" method="post">
+                            <input type="hidden" name="cartItemId" value="@cartItem.CartItemId" />
+                            <input type="hidden" name="productId" value="@cartItem.ProductId" />
+                            <input type="number" class="cart-quantity-input" name="quantity" value="@cartItem.Quantity" min="1" onchange="this.form.submit()" />
+                        </form>
+                    </td>
+                    <td>
+                        <div class="cart-book-total-price">@((cartItem.Price * cartItem.Quantity).ToString("N0"))đ</div>
+                    </td>
+                    <td>
+                       <form asp-action="DeleteCart" method="post">
+                            <input type="hidden" name="cartItemId" value="@cartItem.CartItemId" />
+                            <button type="submit" class="remove">Xóa</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+<div class="cart-total">
+    <div class="cart-total-price">
+        <span>Tổng tiền sách: </span>
+        <span>@Model.Sum(c => c.CartItems.Sum(ci => ci.Price * ci.Quantity)).ToString("N0")đ</span>
+    </div>
+    <div class="cart-total-btn">
+        <a href="" class="cart-total-btn-back">Quay lại</a>
+        <a href="" class="cart-total-btn-submit">Đặt hàng</a>
+    </div>
+</div>

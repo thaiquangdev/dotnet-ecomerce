@@ -1,0 +1,46 @@
+@model asp_mvc.Dtos.ProductListViewModel
+
+<div class="container">
+    <div class="row">
+        <div class="col-3">
+            <h1 class="sidebar-header">Danh mục</h1>
+            <div class="sidebar-content">
+                <ul class="sidebar-list">
+                    @foreach(var subcategory in Model.SubCategories)
+                    {
+                        <li>
+                            <a asp-controller="Product" asp-action="ProductList" asp-route-SubCategoryId="@subcategory.SubCategoryId">@subcategory.SubCategoryName</a>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+        <div class="col-9">
+            <div class="content">
+                <div class="row">
+                    @foreach(var product in Model.Products)
+        {
+            <div class="col-3">
+                <a asp-controller="Product" asp-action="ProductDetail" asp-route-ProductId="@product.ProductId">
+                    <div class="content-item">
+                        <img src="@product.Thumb" alt="@product.Title" class="content-item-image">
+                        <div class="content-item-content">
+                            <p class="content-item-title">@product.Title</p>
+                            <a href="#" class="content-item-author">@product.Author</a>
+                            <p class="content-item-price">
+                            <span class="content-price-new">@product.PriceNew</span>
+                            @if (product.Discount > 0)
+                            {
+                                <span class="content-price-old">@product.PriceNew - @(product.PriceNew * product.Discount)</span>
+                            }
+                            </p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

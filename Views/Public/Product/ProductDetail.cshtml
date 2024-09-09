@@ -1,0 +1,58 @@
+@model Product
+
+<div class="container">
+    <div class="product-detail">
+        <div class="row">
+            <div class="col-10">
+               <div class="row">
+                 <div class="col-5">
+                    <div class="product">
+                        <div>
+                            <img src="@Model.ImageUrl" class="product-image"/>
+                        </div>
+                        <div>
+                            <img src="@Model.Thumb" class="product-thumb"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-5">
+                    <p class="product-title">@Model.Title</p>
+                    <p class="product-author">Tác giả: @Model.Author</p>
+                    <p class="product-subcate">Lĩnh vực: @Model.SubCategory.SubCategoryName</p>
+                    <p class="product-price-new">
+                        @if(Model.Discount > 0)
+                        {
+                            @(Model.PriceNew - (Model.PriceNew * (Model.Discount / 100)))
+                        }
+                        else
+                        {
+                            @Model.PriceNew
+                        }
+                    </p>
+                    @if(Model.Discount > 0)
+                    {
+                        <p class="product-price-old"><span>@Model.PriceNew</span> -@Model.Discount%</p>
+                    }
+                    @if(Model.Stock > 0)
+                    {
+                        <p class="product-stock">Tình trạng: Còn hàng</p>
+                    } 
+                    else
+                    {
+                        <p class="product-stock">Tình trạng: Hết hàng</p>
+                    }
+                    <div class="product-form">
+                        <form asp-action="AddToCart" method="post">
+                            <input type="hidden" name="ProductId" value="@Model.ProductId" />
+                            <p class="product-quant-text">Số lượng: </p>
+                             <input type="number" id="quantity" name="Quantity" value="1" min="1" max="@Model.Stock" class="product-input"/>
+                            <button type="submit" class="btn btn-primary">Thêm vào giỏ hàng</button>
+                        </form>
+                    </div>
+                </div>
+               </div>
+            </div>
+            <div class="col-1"></div>
+        </div>
+    </div>
+</div>

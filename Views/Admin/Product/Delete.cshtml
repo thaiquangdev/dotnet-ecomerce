@@ -1,0 +1,40 @@
+@model Product
+
+<form method="post">
+    <div class="border p-3 p-4">
+        <div class="row pb-2">
+            <h2 class="text-primary">Delte Product</h2>
+            <hr>
+        </div>
+        <div class="mb-3 row p-1">
+            <label asp-for="Title" class="p-0"></label>
+            <input asp-for="Title" disable class="form-control">
+        </div>
+        <div class="mb-3 row p-1">
+            <label asp-for="SubCategoryId" class="p-0"></label>
+            <input asp-for="SubCategoryId" disable class="form-control">
+        </div>
+        <div class="mb-3 row p-1">
+            <label asp-for="PriceNew" class="p-0"></label>
+            <input asp-for="PriceNew" disable class="form-control">
+        </div>
+        <div class="mb-3 row p-1">
+            <label asp-for="Author" class="p-0"></label>
+            <input asp-for="Author" disable class="form-control">
+        </div>
+       
+        <div class="row">
+            <div class="col-6 col-md-3">
+                <button type="submit" class="btn btn-primary form-control">Delete</button>
+            </div>
+            <div class="col-6 col-md-3">
+                <a asp-controller="SubCategory" asp-action="Index" class="btn btn-secondary form-control">Back to List</a>
+            </div>
+        </div>
+    </div>
+</form>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @Html.Partial("ToastNotifications")
+}

@@ -1,0 +1,54 @@
+@model asp_mvc.Dtos.ProductAdminViewModel
+
+<div class="container">
+    <div class="row pt-4 pb-3">
+        <div class="col-6">
+            <h2 class="text-primary">Product List</h2>
+        </div>
+        <div class="col-6 text-end">
+            <a asp-controller="Product" asp-action="Create" class="btn btn-primary"><i class="bi bi-plus-circle"></i> Create New Product</a>
+        </div>
+    </div>
+
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Thumb</th>
+                <th>Title</th>
+                <th>PriceNew</th>
+                <th>Stock</th>
+                <th>Sold</th>
+                <th>Author</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var obj in Model.Products)
+            {
+                <tr>
+                    <td>
+                        <img src="@obj.ImageUrl" alt="Product Image" style="max-width: 100px; max-height: 100px; object-fit: cover;">
+                    </td>
+                    <td>@obj.Title</td>
+                    <td>@obj.PriceNew</td>
+                    <td>@obj.Stock</td>
+                    <td>@obj.Sold</td>
+                    <td>@obj.Author</td>
+                    <td>
+                        <div class="w-75 btn-group" role="group">
+                            <a asp-controller="Product" asp-action="Edit" asp-route-id="@obj.ProductId" class="btn btn-primary mx-2"><i class="bi bi-pencil-square"></i> Edit</a>
+                            <a asp-controller="Product" asp-action="Delete" asp-route-id="@obj.ProductId" class="btn btn-danger mx-2"><i class="bi bi-trash-fill"></i> Delete</a>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <div class="pagination">
+        @for (var i = 1; i <= Model.TotalPages; i++)
+        {
+            <a href="@Url.Action("Index", new { page = i })" class="@(i == Model.CurrentPage ? "active" : "")">@i</a>
+        }
+    </div>
+</div>

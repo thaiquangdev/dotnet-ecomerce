@@ -1,0 +1,61 @@
+@model asp_mvc.Dtos.EditProductViewModel
+
+<form asp-action="Edit" method="post" enctype="multipart/form-data">
+    <div class="border p-3 p-4">
+        <div class="row pb-2">
+            <h2 class="text-primary">Edit Product</h2>
+            <hr>
+        </div>
+        <div class="mb-3 row p-1">
+            <label asp-for="Title" class="p-0"></label>
+            <input asp-for="Title" class="form-control">
+            <span asp-validation-for="Title" class="text-danger"></span>
+        </div>
+        <div class="mb-3 row p-1">
+            <label asp-for="SubCategoryId" class="p-0"></label>
+            <select asp-for="SubCategoryId" class="form-control" asp-items="@(new SelectList(Model.SubCategories, "SubCategoryId", "SubCategoryName"))">
+                <option value="">Select Sub Category</option>
+            </select>
+            <span asp-validation-for="SubCategoryId" class="text-danger"></span>
+        </div>
+        <div class="mb-3 row p-1">
+            <label asp-for="Stock" class="p-0"></label>
+            <input asp-for="Stock" class="form-control">
+            <span asp-validation-for="Stock" class="text-danger"></span>
+        </div>
+        <div class="mb-3 row p-1">
+            <label asp-for="Discount" class="p-0"></label>
+            <input asp-for="Discount" class="form-control">
+            <span asp-validation-for="Discount" class="text-danger"></span>
+        </div>
+        <div class="mb-3 row p-1">
+            <label asp-for="PriceNew" class="p-0"></label>
+            <input asp-for="PriceNew" class="form-control">
+            <span asp-validation-for="PriceNew" class="text-danger"></span>
+        </div>
+        <div class="mb-3 row p-1">
+            <label asp-for="Author" class="p-0"></label>
+            <input asp-for="Author" class="form-control">
+            <span asp-validation-for="Author" class="text-danger"></span>
+        </div>
+        <div class="mb-3 row p-1">
+            <label asp-for="Description" class="p-0"></label>
+            <input asp-for="Description" class="form-control">
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+        
+        <div class="row">
+            <div class="col-6 col-md-3">
+                <button type="submit" class="btn btn-primary form-control">Edit</button>
+            </div>
+            <div class="col-6 col-md-3">
+                <a asp-controller="Product" asp-action="Index" class="btn btn-secondary form-control">Back to List</a>
+            </div>
+        </div>
+    </div>
+</form>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @Html.Partial("ToastNotifications")
+}

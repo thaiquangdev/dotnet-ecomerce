@@ -1,0 +1,95 @@
+.search {
+  flex-grow: 2;
+  padding: 0 20px;
+}
+
+.menu {
+  padding-left: 20px;
+  justify-content: end;
+  display: flex;
+  align-items: center;
+}
+
+.menu-link {
+  text-decoration: none;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 50px;
+  margin: 0 10px;
+}
+
+.menu-cart {
+  cursor: pointer;
+}
+
+.menu-cart i {
+  font-size: 20px;
+}
+
+footer {
+  background-color: rgb(11, 197, 254);
+  padding: 10px 0;
+}
+
+footer p {
+  font-size: 30px;
+  font-weight: 500;
+  color: white;
+  text-align: center;
+}
+
+/* Đảm bảo rằng dropdown menu không hiện ra mặc định */
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 1000;
+  float: left;
+  min-width: 10rem;
+  padding: 0.5rem 0;
+  margin: 0.125rem 0 0;
+  font-size: 1rem;
+  color: #212529;
+  text-align: left;
+  list-style: none;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 0.25rem;
+}
+
+/* Hiển thị dropdown menu khi hover vào dropdown */
+.dropdown:hover .dropdown-menu {
+  display: block;
+}
+
+/* Các mục trong dropdown */
+.dropdown-item {
+  display: block;
+  width: 100%;
+  padding: 0.25rem 1.5rem;
+  clear: both;
+  font-weight: 400;
+  color: #212529;
+  text-align: inherit;
+  white-space: nowrap;
+  background-color: transparent;
+  border: 0;
+}
+
+/* Thay đổi màu nền và màu chữ khi hover vào một mục */
+.dropdown-item:hover {
+  color: #fff;
+  background-color: #007bff; /* Màu nền khi hover */
+}
+
+/* Màu sắc cho biểu tượng và tên người dùng */
+.menu-link {
+  color: #000;
+  text-decoration: none;
+}
+
+.menu-link:hover {
+  color: #007bff; /* Màu khi hover vào tên người dùng */
+}

@@ -1,0 +1,38 @@
+@model asp_mvc.Dtos.CreatePublisherViewModel
+
+<form asp-action="Create" method="post" enctype="multipart/form-data">
+    <div class="border p-3 p-4">
+        <div class="row pb-2">
+            <h2 class="text-primary">Create Publisher</h2>
+            <hr>
+        </div>
+        <div class="mb-3 row p-1">
+            <label asp-for="PublisherName" class="p-0"></label>
+            <input asp-for="PublisherName" class="form-control">
+            <span asp-validation-for="PublisherName" class="text-danger"></span>
+        </div>
+        <div class="mb-3 row p-1">
+            <label asp-for="PublisherThumb" class="p-0"></label>
+            <input asp-for="PublisherThumb" type="file" class="form-control">
+            <span asp-validation-for="PublisherThumb" class="text-danger"></span>
+        </div>
+        <div class="mb-3 row p-1">
+            <label asp-for="PublisherImage" class="p-0"></label>
+            <input asp-for="PublisherImage" type="file" class="form-control">
+            <span asp-validation-for="PublisherImage" class="text-danger"></span>
+        </div>
+        <div class="row">
+            <div class="col-6 col-md-3">
+                <button type="submit" class="btn btn-primary form-control">Create</button>
+            </div>
+            <div class="col-6 col-md-3">
+                <a asp-controller="Publisher" asp-action="Index" class="btn btn-secondary form-control">Back to List</a>
+            </div>
+        </div>
+    </div>
+</form>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @Html.Partial("ToastNotifications")
+}
