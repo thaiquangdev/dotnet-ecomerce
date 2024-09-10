@@ -45,13 +45,62 @@ namespace asp_mvc.Controllers.Public
         [Route("Public/Product/ProductDetail")]
         public IActionResult ProductDetail(int? ProductId)
         {
-            if(ProductId == null || ProductId == 0) return NotFound();
             var product = _db.Products
-                        .Where(sc => sc.ProductId == ProductId)
-                        .Include(c => c.SubCategory)
-                        .FirstOrDefault();
-            return View(product);
+            .Include(p => p.SubCategory)
+            .FirstOrDefault(p => p.ProductId == ProductId);
+
+        var reviews = _db.Reviews
+            .Where(r => r.ProductId == ProductId)
+            .Include(r => r.User)
+            .ToList();
+
+        if (product == null)
+        {
+            return NotFound();
         }
+
+        var viewModel = new ProductDetailViewModel
+        {
+            Product = product,
+            Reviews = reviews
+        };
+
+        return View(viewModel);
+        }
+
+        [Route("Public/Product/AddReview")]
+        [HttpPost]
+public IActionResult AddReview(ReviewViewModel model)
+{
+    if (!ModelState.IsValid)
+    {
+        TempData["ErrorMessage"] = "Invalid review submission.";
+        return RedirectToAction("Details", new { id = model.ProductId });
+    }
+
+     var userId = HttpContext.Session.GetInt32("UserId");
+            if (userId == null)
+            {
+                TempData["ErrorMessage"] = "You need to log in to add products to your cart.";
+                return RedirectToAction("Login", "Auth");
+            }
+
+    var review = new Review
+    {
+        ProductId = model.ProductId,
+        UserId = (int)userId,
+        Rating = model.Rating,
+        Comment = model.Comment,
+        CreatedAt = DateTime.Now,
+        UpdatedAt = DateTime.Now
+    };
+
+    _db.Reviews.Add(review);
+    _db.SaveChanges();
+
+    TempData["SuccessMessage"] = "Your review has been submitted.";
+    return RedirectToAction("Details", new { id = model.ProductId });
+}
 
         [HttpPost]
         [Route("Public/Product/AddToCart")]

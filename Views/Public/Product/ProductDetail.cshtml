@@ -1,56 +1,90 @@
-@model Product
+@model asp_mvc.Dtos.ProductDetailViewModel
 
 <div class="container">
     <div class="product-detail">
         <div class="row">
             <div class="col-10">
-               <div class="row">
-                 <div class="col-5">
-                    <div class="product">
-                        <div>
-                            <img src="@Model.ImageUrl" class="product-image"/>
-                        </div>
-                        <div>
-                            <img src="@Model.Thumb" class="product-thumb"/>
+                <div class="row">
+                    <div class="col-5">
+                        <div class="product">
+                            <div>
+                                <img src="@Model.Product.ImageUrl" class="product-image"/>
+                            </div>
+                            <div>
+                                <img src="@Model.Product.Thumb" class="product-thumb"/>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-5">
-                    <p class="product-title">@Model.Title</p>
-                    <p class="product-author">Tác giả: @Model.Author</p>
-                    <p class="product-subcate">Lĩnh vực: @Model.SubCategory.SubCategoryName</p>
-                    <p class="product-price-new">
-                        @if(Model.Discount > 0)
+                    <div class="col-5">
+                        <p class="product-title">@Model.Product.Title</p>
+                        <p class="product-author">Tác giả: @Model.Product.Author</p>
+                        <p class="product-subcate">Lĩnh vực: @Model.Product.SubCategory.SubCategoryName</p>
+                        <p class="product-price-new">
+                            @if(Model.Product.Discount > 0)
+                            {
+                                @(Model.Product.PriceNew - (Model.Product.PriceNew * (Model.Product.Discount / 100)))
+                            }
+                            else
+                            {
+                                @Model.Product.PriceNew
+                            }
+                        </p>
+                        @if(Model.Product.Discount > 0)
                         {
-                            @(Model.PriceNew - (Model.PriceNew * (Model.Discount / 100)))
+                            <p class="product-price-old"><span>@Model.Product.PriceNew</span> -@Model.Product.Discount%</p>
                         }
+                        @if(Model.Product.Stock > 0)
+                        {
+                            <p class="product-stock">Tình trạng: Còn hàng</p>
+                        } 
                         else
                         {
-                            @Model.PriceNew
+                            <p class="product-stock">Tình trạng: Hết hàng</p>
                         }
-                    </p>
-                    @if(Model.Discount > 0)
-                    {
-                        <p class="product-price-old"><span>@Model.PriceNew</span> -@Model.Discount%</p>
-                    }
-                    @if(Model.Stock > 0)
-                    {
-                        <p class="product-stock">Tình trạng: Còn hàng</p>
-                    } 
-                    else
-                    {
-                        <p class="product-stock">Tình trạng: Hết hàng</p>
-                    }
-                    <div class="product-form">
-                        <form asp-action="AddToCart" method="post">
-                            <input type="hidden" name="ProductId" value="@Model.ProductId" />
-                            <p class="product-quant-text">Số lượng: </p>
-                             <input type="number" id="quantity" name="Quantity" value="1" min="1" max="@Model.Stock" class="product-input"/>
-                            <button type="submit" class="btn btn-primary">Thêm vào giỏ hàng</button>
-                        </form>
+                        <div class="product-form">
+                            <form asp-action="AddToCart" method="post">
+                                <input type="hidden" name="ProductId" value="@Model.Product.ProductId" />
+                                <p class="product-quant-text">Số lượng: </p>
+                                <input type="number" id="quantity" name="Quantity" value="1" min="1" max="@Model.Product.Stock" class="product-input"/>
+                                <button type="submit" class="btn btn-primary">Thêm vào giỏ hàng</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
-               </div>
+                <div class="reviews">
+                    <h3>Đánh giá sản phẩm</h3>
+                    @if (Model.Reviews.Any())
+                    {
+                        <ul>
+                            @foreach (var review in Model.Reviews)
+                            {
+                                <li>
+                                    <p><strong>@review.User.UserName</strong> - @review.CreatedAt.ToString("dd/MM/yyyy")</p>
+                                    <p>Đánh giá: @review.Rating/5</p>
+                                    <p>@review.Comment</p>
+                                </li>
+                            }
+                        </ul>
+                    }
+                    else
+                    {
+                        <p>Chưa có đánh giá cho sản phẩm này.</p>
+                    }
+
+                    <h3>Thêm đánh giá</h3>
+                    <form asp-action="AddReview" method="post">
+                        <input type="hidden" name="ProductId" value="@Model.Product.ProductId" />
+                        <div class="mb-3">
+                            <label for="rating" class="form-label">Đánh giá (1-5)</label>
+                            <input type="number" id="rating" name="Rating" min="1" max="5" class="form-control" required />
+                        </div>
+                        <div class="mb-3">
+                            <label for="comment" class="form-label">Nhận xét</label>
+                            <textarea id="comment" name="Comment" class="form-control" rows="4" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Gửi đánh giá</button>
+                    </form>
+                </div>
             </div>
             <div class="col-1"></div>
         </div>

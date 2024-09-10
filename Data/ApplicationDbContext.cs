@@ -21,6 +21,10 @@ namespace asp_mvc.Data
         public DbSet<Cart> Carts {get; set;}
         public DbSet<CartItem> CartItems {get; set;}
 
+        public DbSet<ShippingDetail> ShippingDetails {get; set;}
+
+        public DbSet<Payment> Payments {get; set;}
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

@@ -402,6 +402,64 @@ h1 {
   background-color: #0056b3;
 }
 
+/* Product Detail Styles */
+.product-detail {
+  margin: 20px 0;
+}
+
+.product-image,
+.product-thumb {
+  max-width: 100%;
+  border-radius: 5px;
+}
+
+.product-title {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.product-author,
+.product-subcate,
+.product-price-new,
+.product-price-old,
+.product-stock {
+  font-size: 16px;
+}
+
+.product-form {
+  margin-top: 20px;
+}
+
+.product-input {
+  width: 60px;
+}
+
+.reviews {
+  margin-top: 30px;
+}
+
+.reviews h3 {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.reviews ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.reviews li {
+  margin-bottom: 20px;
+}
+
+.reviews p {
+  margin: 0;
+}
+
+.form-control {
+  margin-bottom: 10px;
+}
+
 @media (max-width: 768px) {
   .product-detail {
     padding: 15px;

@@ -1,4 +1,4 @@
-@model List<asp_mvc.Models.Cart>
+@model asp_mvc.Dtos.CheckoutViewModel
 
 <div class="container my-4">
     <div class="row">
@@ -6,50 +6,66 @@
         <div class="col-md-6">
             <h2 class="title-shopper mb-4">Điền thông tin mua hàng</h2>
             <div class="form-content p-4 border rounded bg-light">
-                <form>
+                <form asp-action="CompletePurchase" asp-controller="Checkout" method="post">
+                    <!-- Thông tin người mua -->
                     <div class="mb-3">
                         <label for="phone" class="form-label">Số điện thoại</label>
-                        <input type="text" class="form-control" id="phone" placeholder="Nhập số điện thoại">
+                        <input type="text" class="form-control" id="phone" name="Phone" placeholder="Nhập số điện thoại" required>
                     </div>
                     <div class="mb-3">
                         <label for="city" class="form-label">Thành phố</label>
-                        <input type="text" class="form-control" id="city" placeholder="Nhập thành phố">
+                        <input type="text" class="form-control" id="city" name="City" placeholder="Nhập thành phố" required>
                     </div>
                     <div class="mb-3">
                         <label for="zipCode" class="form-label">Mã zip</label>
-                        <input type="text" class="form-control" id="zipCode" placeholder="Nhập mã zip">
+                        <input type="text" class="form-control" id="zipCode" name="ZipCode" placeholder="Nhập mã zip" required>
                     </div>
                     <div class="mb-3">
                         <label for="country" class="form-label">Đất nước</label>
-                        <input type="text" class="form-control" id="country" placeholder="Nhập đất nước">
+                        <input type="text" class="form-control" id="country" name="Country" placeholder="Nhập đất nước" required>
                     </div>
+
+                    <!-- Thông tin giỏ hàng -->
+                    <div class="cart-items p-4 border rounded bg-light">
+                        @if(Model.CartItems != null && Model.CartItems.Any())
+                        {
+                            @foreach(var cartItem in Model.CartItems)
+                            {
+                                <div class="d-flex mb-3 border-bottom pb-2">
+                                    <img src="@cartItem.Thumb" alt="@cartItem.Title" class="img-fluid me-3" style="width: 80px;">
+                                    <div>
+                                        <h5 class="mb-1">@cartItem.Title</h5>
+                                        <p class="text-muted mb-0">Giá: @cartItem.Price.ToString("N0")đ</p>
+                                        <p class="text-muted mb-0">Giảm giá: - @cartItem.Discount%</p>
+                                    </div>
+                                </div>
+                            }
+                        }
+                        else
+                        {
+                            <p>Giỏ hàng của bạn đang trống.</p>
+                        }
+                    </div>
+
+                    @if(Model.CartItems != null && Model.CartItems.Any())
+                    {
+                        <div class="cart-total mt-3">
+                            <p class="fw-bold">Tổng giá: @Model.Amount.ToString("N0")đ</p>
+                        </div>
+
+                        <!-- Thêm các trường hidden để gửi dữ liệu -->
+                        <input type="hidden" name="Amount" value="@Model.Amount" />
+                        <input type="hidden" name="CartId" value="@Model.CartId" />
+
+                        <!-- Nút mua hàng -->
+                        <button type="submit" class="btn btn-primary w-100 mt-4">Mua hàng</button>
+                    }
+                    else
+                    {
+                        <button type="submit" class="btn btn-secondary w-100 mt-4" disabled>Giỏ hàng trống</button>
+                    }
                 </form>
             </div>
-        </div>
-
-        <!-- Thông tin giỏ hàng -->
-        <div class="col-md-6">
-            <h2 class="title-cart mb-4">Thông tin giỏ hàng</h2>
-            <div class="cart-items p-4 border rounded bg-light">
-                @foreach(var cart in Model)
-                {
-                    @foreach(var cartItem in cart.CartItems)
-                    {
-                        <div class="d-flex mb-3 border-bottom pb-2">
-                            <img src="@cartItem.Product.Thumb" alt="@cartItem.Product.Title" class="img-fluid me-3" style="width: 80px;">
-                            <div>
-                                <h5 class="mb-1">@cartItem.Product.Title</h5>
-                                <p class="text-muted mb-0">Giá: @cartItem.Price.ToString("N0")đ</p>
-                                <p class="text-muted mb-0">Giảm giá: - @cartItem.Product.Discount%</p>
-                            </div>
-                        </div>
-                    }
-                }
-            </div>
-            <div class="cart-total mt-3">
-                <p class="fw-bold">Tổng giá: @Model.Sum(c => c.CartItems.Sum(ci => ci.Price * ci.Quantity)).ToString("N0")đ</p>
-            </div>
-            <button class="btn btn-primary w-100 mt-4">Mua hàng</button>
         </div>
     </div>
 </div>
