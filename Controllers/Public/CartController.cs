@@ -24,7 +24,7 @@ namespace asp_mvc.Controllers
             }
 
             List<Cart> carts = _db.Carts
-                .Where(c => c.UserId == userId)
+                .Where(c => c.UserId == userId && c.Status == "pending")
                     .Include(c => c.CartItems)
                         .ThenInclude(ci => ci.Product)
                             .ThenInclude(p => p.Publisher)

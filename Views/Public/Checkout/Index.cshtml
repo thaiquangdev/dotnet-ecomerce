@@ -6,30 +6,39 @@
         <div class="col-md-6">
             <h2 class="title-shopper mb-4">Điền thông tin mua hàng</h2>
             <div class="form-content p-4 border rounded bg-light">
-                <form asp-action="CompletePurchase" asp-controller="Checkout" method="post">
+                <form asp-action="CompletePurchase" method="post">
                     <!-- Thông tin người mua -->
                     <div class="mb-3">
                         <label for="phone" class="form-label">Số điện thoại</label>
-                        <input type="text" class="form-control" id="phone" name="Phone" placeholder="Nhập số điện thoại" required>
+                        <input type="text" class="form-control" asp-for="Phone" id="phone" placeholder="Nhập số điện thoại" required>
+                        <span asp-validation-for="Phone" class="text-danger"></span>
                     </div>
                     <div class="mb-3">
                         <label for="city" class="form-label">Thành phố</label>
-                        <input type="text" class="form-control" id="city" name="City" placeholder="Nhập thành phố" required>
+                        <input type="text" class="form-control" asp-for="City" id="city" placeholder="Nhập thành phố" required>
+                        <span asp-validation-for="City" class="text-danger"></span>
                     </div>
                     <div class="mb-3">
                         <label for="zipCode" class="form-label">Mã zip</label>
-                        <input type="text" class="form-control" id="zipCode" name="ZipCode" placeholder="Nhập mã zip" required>
+                        <input type="text" class="form-control" asp-for="ZipCode" id="zipCode" placeholder="Nhập mã zip" required>
+                        <span asp-validation-for="ZipCode" class="text-danger"></span>
                     </div>
                     <div class="mb-3">
                         <label for="country" class="form-label">Đất nước</label>
-                        <input type="text" class="form-control" id="country" name="Country" placeholder="Nhập đất nước" required>
+                        <input type="text" class="form-control" asp-for="Country" id="country" placeholder="Nhập đất nước" required>
+                        <span asp-validation-for="Country" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label for="address" class="form-label">Địa chỉ</label>
+                        <input type="text" class="form-control" asp-for="Address" id="address" placeholder="Nhập địa chỉ" required>
+                        <span asp-validation-for="Address" class="text-danger"></span>
                     </div>
 
                     <!-- Thông tin giỏ hàng -->
                     <div class="cart-items p-4 border rounded bg-light">
-                        @if(Model.CartItems != null && Model.CartItems.Any())
+                        @if (Model.CartItems != null && Model.CartItems.Any())
                         {
-                            @foreach(var cartItem in Model.CartItems)
+                            @foreach (var cartItem in Model.CartItems)
                             {
                                 <div class="d-flex mb-3 border-bottom pb-2">
                                     <img src="@cartItem.Thumb" alt="@cartItem.Title" class="img-fluid me-3" style="width: 80px;">
@@ -47,15 +56,15 @@
                         }
                     </div>
 
-                    @if(Model.CartItems != null && Model.CartItems.Any())
+                    @if (Model.CartItems != null && Model.CartItems.Any())
                     {
                         <div class="cart-total mt-3">
                             <p class="fw-bold">Tổng giá: @Model.Amount.ToString("N0")đ</p>
                         </div>
 
                         <!-- Thêm các trường hidden để gửi dữ liệu -->
-                        <input type="hidden" name="Amount" value="@Model.Amount" />
-                        <input type="hidden" name="CartId" value="@Model.CartId" />
+                        <input type="hidden" asp-for="Amount" />
+                        <input type="hidden" asp-for="CartId" />
 
                         <!-- Nút mua hàng -->
                         <button type="submit" class="btn btn-primary w-100 mt-4">Mua hàng</button>

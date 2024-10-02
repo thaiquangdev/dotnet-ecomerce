@@ -5,7 +5,7 @@
         <div class="row">
             <div class="col-10">
                 <div class="row">
-                    <div class="col-5">
+                    <div class="col-6">
                         <div class="product">
                             <div>
                                 <img src="@Model.Product.ImageUrl" class="product-image"/>
@@ -15,7 +15,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-5">
+                    <div class="col-6">
                         <p class="product-title">@Model.Product.Title</p>
                         <p class="product-author">Tác giả: @Model.Product.Author</p>
                         <p class="product-subcate">Lĩnh vực: @Model.Product.SubCategory.SubCategoryName</p>
@@ -49,7 +49,13 @@
                                 <button type="submit" class="btn btn-primary">Thêm vào giỏ hàng</button>
                             </form>
                         </div>
+                        <div class="description">
+                            <span>
+                                @Model.Product.Description
+                            </span>
+                        </div>
                     </div>
+                   
                 </div>
                 <div class="reviews">
                     <h3>Đánh giá sản phẩm</h3>
@@ -61,7 +67,7 @@
                                 <li>
                                     <p><strong>@review.User.UserName</strong> - @review.CreatedAt.ToString("dd/MM/yyyy")</p>
                                     <p>Đánh giá: @review.Rating/5</p>
-                                    <p>@review.Comment</p>
+                                    <p>Bình luận: @review.Comment</p>
                                 </li>
                             }
                         </ul>
@@ -72,7 +78,7 @@
                     }
 
                     <h3>Thêm đánh giá</h3>
-                    <form asp-action="AddReview" method="post">
+                    <form asp-action="AddReview" method="post" asp-controller="Public" class="form-review">
                         <input type="hidden" name="ProductId" value="@Model.Product.ProductId" />
                         <div class="mb-3">
                             <label for="rating" class="form-label">Đánh giá (1-5)</label>
@@ -86,7 +92,17 @@
                     </form>
                 </div>
             </div>
-            <div class="col-1"></div>
+             <div class="col-2">
+                        <div class="publisher">
+                            <img src="@Model.Product.Publisher.PublisherImage" alt="" class="publisher-image">
+                            <div class="">
+                                <h3 class="publisher-head">@Model.Product.Publisher.PublisherName</h3>
+                                <p class="publisher-title">Hoàn tiền nếu 100% là giả</p>
+                                <p class="publisher-title">Mở hộp kiểm tra nhận hàng</p>
+                                <p class="publisher-title">Đổi trả 30 ngày nếu sản phẩm lỗi</p>
+                            </div>
+                        </div>
+            </div>
         </div>
     </div>
 </div>

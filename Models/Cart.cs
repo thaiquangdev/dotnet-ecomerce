@@ -8,6 +8,7 @@ namespace asp_mvc.Models
         [ForeignKey("User")]
         public int UserId { get; set; }
         public double TotalPrice { get; set; }
+        public string Status {get; set;}
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
         public User User { get; set; }

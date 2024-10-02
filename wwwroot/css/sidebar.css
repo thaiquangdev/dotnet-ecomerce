@@ -5,9 +5,25 @@
   border-radius: 5px;
 }
 
+/* Ẩn subcategories mặc định */
+.subCategories-list {
+  display: none;
+  margin-left: 20px; /* Để tạo khoảng cách cho subcategories */
+}
+
+/* Hiển thị subcategories khi hover vào mục cha */
+.category-item:hover .subCategories-list {
+  display: block;
+}
+
+/* Thêm một chút style để mục con trông đẹp hơn */
+.subCategories-list li {
+  margin-top: 5px;
+  list-style: none;
+}
+
 .category-list,
 .publisher-list {
-  list-style-type: none;
   padding: 0;
   margin: 0;
 }
@@ -19,9 +35,9 @@
 }
 
 .category-item a,
-.publisher-list a {
+.publisher-list li a {
   text-decoration: none;
-  color: #007bff;
+  color: #000;
   font-weight: bold;
 }
 
@@ -434,6 +450,52 @@ h1 {
   width: 60px;
 }
 
+/* Publisher Section */
+.publisher {
+  padding: 15px;
+  background-color: #f7f7f7;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.publisher-image {
+  width: 80px;
+  height: 80px;
+  margin-bottom: 15px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 2px solid #ddd;
+}
+
+.publisher-title {
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.publisher-title:last-child {
+  margin-bottom: 0;
+}
+
+/* Description Section */
+.description {
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  line-height: 1.6;
+  font-size: 16px;
+  color: #333333;
+  margin-top: 20px;
+}
+
+.description span {
+  display: block;
+  white-space: pre-wrap;
+}
+
 .reviews {
   margin-top: 30px;
 }
@@ -450,10 +512,21 @@ h1 {
 
 .reviews li {
   margin-bottom: 20px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  padding: 20px;
+  border-radius: 10px;
 }
 
 .reviews p {
   margin: 0;
+}
+
+.form-review {
+  border: 1px solid #ccc;
+  padding: 10px;
+  background: #fff;
+  border-radius: 10px;
 }
 
 .form-control {

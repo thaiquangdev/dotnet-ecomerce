@@ -47,6 +47,7 @@ namespace asp_mvc.Controllers.Public
         {
             var product = _db.Products
             .Include(p => p.SubCategory)
+            .Include(p => p.Publisher)
             .FirstOrDefault(p => p.ProductId == ProductId);
 
         var reviews = _db.Reviews
@@ -122,6 +123,7 @@ public IActionResult AddReview(ReviewViewModel model)
             {
                 UserId = (int)userId,
                 TotalPrice = (double)((product.PriceNew - (product.PriceNew * (product.Discount/100))) * Quantity),
+                Status = "pending",
                 CreatedAt = DateTime.Now,
                 UpdatedAt = DateTime.Now
             };

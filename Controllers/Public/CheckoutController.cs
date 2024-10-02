@@ -25,7 +25,7 @@ namespace asp_mvc.Controllers
             }
 
             var carts = _db.Carts
-                .Where(c => c.UserId == userId)
+                .Where(c => c.UserId == userId && c.Status == "pending")
                 .Include(c => c.CartItems)
                 .ThenInclude(ci => ci.Product)
                 .ToList();
@@ -54,47 +54,57 @@ namespace asp_mvc.Controllers
             return View(checkoutViewModel);
         }
 
-        [Route("Public/Checkout/CompletePurchase")]
         [HttpPost]
-        public IActionResult CompletePurchase(CheckoutViewModel model)
-        {
-            if (!ModelState.IsValid)
-            {
-                // Xử lý lỗi khi dữ liệu không hợp lệ
-                return View("Index", model);
-            }
+public IActionResult CompletePurchase(CheckoutViewModel model)
+{
+    var userId = HttpContext.Session.GetInt32("UserId");
+    if (userId == null)
+    {
+        TempData["ErrorMessage"] = "Bạn cần đăng nhập để thực hiện thanh toán.";
+        return RedirectToAction("Login", "Auth");
+    }
 
-            var userId = HttpContext.Session.GetInt32("UserId");
-            if (userId == null)
-            {
-                TempData["ErrorMessage"] = "User is not logged in.";
-                return RedirectToAction("Login", "Auth");
-            }
+    // Tạo thông tin giao hàng từ dữ liệu của model
+    var shippingDetail = new ShippingDetail
+    {
+        UserId = (int)userId,
+        CartId = model.CartId,
+        Address = model.Address,
+        City = model.City,
+        ZipCode = model.ZipCode,
+        Country = model.Country,
+        State = "pending"
+    };
 
-            var shippingDetail = new ShippingDetail
-            {
-                UserId = (int)userId,
-                CartId = model.CartId,
-                Address = model.Address,
-                City = model.City,
-                ZipCode = model.ZipCode,
-                Country = model.Country
-            };
+    // Lưu thông tin giao hàng vào cơ sở dữ liệu
+    _db.ShippingDetails.Add(shippingDetail);
 
-            _db.ShippingDetails.Add(shippingDetail);
+    // Tạo thông tin thanh toán từ dữ liệu của model
+    var payment = new Payment
+    {
+        UserId = (int)userId,
+        CartId = model.CartId,
+        Amount = model.Amount,
+        PaymentDate = DateTime.Now,
+        PaymentMethod = "CARD",
+        PaymentStatus = "success"
+    };
 
-            var payment = new Payment
-            {
-                UserId = (int)userId,
-                CartId = model.CartId,
-                Amount = model.Amount
-            };
+    // Lưu thông tin thanh toán vào cơ sở dữ liệu
+    _db.Payments.Add(payment);
 
-            _db.Payments.Add(payment);
-            _db.SaveChanges();
+    // Lưu các thay đổi vào cơ sở dữ liệu
+    _db.SaveChanges();
 
-            TempData["SuccessMessage"] = "Checkout is successful.";
-            return RedirectToAction("Index", "Home");
-        }
+    var cart = _db.Carts.SingleOrDefault(c => c.CartId == model.CartId);
+    if (cart != null)
+    {
+        cart.Status = "success";
+        _db.SaveChanges();
+    }
+
+    TempData["SuccessMessage"] = "Thanh toán thành công.";
+    return RedirectToAction("Index", "Home");
+}
     }
 }
