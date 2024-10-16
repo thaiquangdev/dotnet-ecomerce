@@ -15,20 +15,20 @@ namespace asp_mvc.Controllers
             _configuration = configuration;
         }
 
-       
-
+        [Route("Auth/Register")]
         public IActionResult Register()
         {
             return View();
         }
 
         [HttpPost]
+        [Route("Auth/Register")]
         public IActionResult Register(RegisterAuthViewModel model)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 var emailExist = _db.Users.FirstOrDefault(u => u.Email == model.Email);
-                if(emailExist != null)
+                if (emailExist != null)
                 {
                     TempData["ErrorMessage"] = "Email already exists.";
                     return View(model);
@@ -45,8 +45,9 @@ namespace asp_mvc.Controllers
 
                 _db.Users.Add(user);
                 _db.SaveChanges();
+
                 var role = _db.Roles.FirstOrDefault(r => r.RoleName == "User");
-                if(role != null)
+                if (role != null)
                 {
                     var userRole = new UserRole
                     {
@@ -57,7 +58,6 @@ namespace asp_mvc.Controllers
                     _db.SaveChanges();
                 }
 
-                
                 TempData["SuccessMessage"] = "User registered successfully!";
                 return RedirectToAction("Login", "Auth");
             }
@@ -65,43 +65,66 @@ namespace asp_mvc.Controllers
             return View(model);
         }
 
+        [Route("Auth/Login")]
         public IActionResult Login()
         {
             return View();
         }
 
         [HttpPost]
-        public IActionResult Login(LoginAuthViewModel model)
+[Route("Auth/Login")]
+public IActionResult Login(LoginAuthViewModel model)
+{
+    if (ModelState.IsValid)
+    {
+        var user = _db.Users.FirstOrDefault(u => u.Email == model.Email);
+
+        // Kiểm tra nếu user là null
+        if (user == null)
         {
-            if(ModelState.IsValid)
-            {
-                var emailExist = _db.Users.FirstOrDefault(u => u.Email == model.Email);
-                
-                if(emailExist != null && BCrypt.Net.BCrypt.Verify(model.Password, emailExist.Password))
-                {
-
-                    HttpContext.Session.SetInt32("UserId", emailExist.UserId);
-                    HttpContext.Session.SetString("UserName", emailExist.UserName);
-                    HttpContext.Session.SetString("UserEmail", emailExist.Email);
-
-                    TempData["SuccessMessage"] = "Login successful!";
-                    return RedirectToAction("Index", "Home");
-                }
-                else
-                {
-                    TempData["ErrorMessage"] = "Email is not found.";
-                    return View(model);
-                }
-            }
+            TempData["ErrorMessage"] = "Email không tồn tại.";
             return View(model);
         }
 
+        if (BCrypt.Net.BCrypt.Verify(model.Password, user.Password))
+        {
+            // Lưu thông tin người dùng vào session
+            HttpContext.Session.SetInt32("UserId", user.UserId);
+            HttpContext.Session.SetString("UserName", user.UserName ?? string.Empty);
+            HttpContext.Session.SetString("UserEmail", user.Email ?? string.Empty);
+
+            // Kiểm tra vai trò của người dùng
+            var roles = _db.UserRoles
+                           .Where(ur => ur.UserId == user.UserId)
+                           .Select(ur => ur.Role.RoleName)
+                           .ToList();
+
+            if (roles.Contains("Admin"))
+            {
+                TempData["SuccessMessage"] = "Đăng nhập thành công! Chào mừng Admin.";
+                return RedirectToAction("Index", "Dashboard"); // Điều hướng đến Admin Dashboard
+            }
+            else
+            {
+                TempData["SuccessMessage"] = "Đăng nhập thành công! Chào mừng User.";
+                return RedirectToAction("Index", "Home"); // Điều hướng đến trang chủ
+            }
+        }
+        else
+        {
+            TempData["ErrorMessage"] = "Mật khẩu không chính xác.";
+            return View(model);
+        }
+    }
+    return View(model);
+}
+
+        [Route("Auth/Logout")]
         public IActionResult Logout()
         {
-            HttpContext.Session.Remove("UserEmail");
-            HttpContext.Session.Remove("UserId");
-            HttpContext.Session.Remove("UserName");
-
+            // Xóa thông tin người dùng trong session
+            HttpContext.Session.Clear();
+            TempData["SuccessMessage"] = "You have been logged out.";
             return RedirectToAction("Login", "Auth");
         }
     }

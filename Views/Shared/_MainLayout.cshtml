@@ -25,12 +25,12 @@
                 <img src="/images/logo_book365.png" alt="" style="object-fit: cover;">
             </a>
             <div class="search">
-                <form action="" class="d-flex align-items-center">
-                    <input type="text" class="form-control"/>
-                    <button type="submit" class="btn btn-primary">
-                        <i class="bi bi-search"></i>
-                    </button>
-                </form>
+                <form asp-controller="Product" asp-action="Search" method="get" class="d-flex align-items-center">
+    <input type="text" name="searchTerm" class="form-control" placeholder="Search for products..." />
+    <button type="submit" class="btn btn-primary">
+        <i class="bi bi-search"></i>
+    </button>
+</form>
             </div>
             <div class="menu">
                 @if (string.IsNullOrEmpty(userName) && string.IsNullOrEmpty(email))

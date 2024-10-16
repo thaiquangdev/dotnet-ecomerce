@@ -1,0 +1,28 @@
+@model List<Product>
+
+<div class="container">
+    <h2>Search Results</h2>
+    
+    @if (Model == null || !Model.Any())
+    {
+        <p>No products found matching your search.</p>
+    }
+    else
+    {
+        <div class="row">
+            @foreach (var product in Model)
+            {
+                <div class="col-md-4">
+                    <div class="card mb-3">
+                        <img src="@product.ImageUrl" class="card-img-top" alt="@product.Title" />
+                        <div class="card-body">
+                            <h5 class="card-title">@product.Title</h5>
+                            <p class="card-text text-muted">Price: @product.PriceNew</p>
+                            <a asp-controller="Product" asp-action="Details" asp-route-id="@product.ProductId" class="btn btn-primary">View Details</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>

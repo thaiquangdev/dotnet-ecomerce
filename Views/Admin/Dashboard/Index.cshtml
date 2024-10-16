@@ -1,0 +1,66 @@
+﻿@{
+    ViewData["Title"] = "Statistics";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body>
+    <div class="container">
+        <h1 class="mt-5 text-center">Statistics Overview</h1>
+
+        <div class="row mt-4">
+            <div class="col-md-4">
+                <div class="card text-white bg-primary mb-3">
+                    <div class="card-header">Total Users</div>
+                    <div class="card-body">
+                        <h5 class="card-title">@Model.TotalUsers</h5>
+                        <p class="card-text">Number of registered users.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card text-white bg-danger mb-3">
+                    <div class="card-header">Total Orders</div>
+                    <div class="card-body">
+                        <h5 class="card-title">@Model.TotalOrders</h5>
+                        <p class="card-text">Total number of orders placed.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-md-4">
+                <div class="card text-white bg-warning mb-3">
+                    <div class="card-header">Pending Orders</div>
+                    <div class="card-body">
+                        <h5 class="card-title">@Model.PendingOrders</h5>
+                        <p class="card-text">Orders that are currently pending.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card text-white bg-info mb-3">
+                    <div class="card-header">Total Revenue</div>
+                    <div class="card-body">
+                        <h5 class="card-title">@String.Format("{0:C}", Model.TotalRevenue)</h5>
+                        <p class="card-text">Total revenue generated.</p>
+                    </div>
+                </div>
+            </div>
+
+            
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

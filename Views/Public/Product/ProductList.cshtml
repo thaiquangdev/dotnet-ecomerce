@@ -28,11 +28,8 @@
                             <p class="content-item-title">@product.Title</p>
                             <a href="#" class="content-item-author">@product.Author</a>
                             <p class="content-item-price">
-                            <span class="content-price-new">@product.PriceNew</span>
-                            @if (product.Discount > 0)
-                            {
-                                <span class="content-price-old">@product.PriceNew - @(product.PriceNew * product.Discount)</span>
-                            }
+                            <span class="content-price-new">@product.PriceNew.ToString("C")</span>
+                           
                             </p>
                         </div>
                     </div>

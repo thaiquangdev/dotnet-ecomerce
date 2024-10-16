@@ -5,29 +5,31 @@
         <div class="col-3">
             <div class="sidebar">
                 <div class="sidebar">
-    <ul class="categories-list">
-        @foreach(var category in Model.Categories)
-        {
-            <li class="category-item">
-                <a href="">@category.CategoryName</a>
-                @if(category.SubCategories.Any())
-                {
-                    <ul class="subCategories-list">
-                        @foreach(var subcategory in category.SubCategories)
+                    <ul class="categories-list">
+                        @foreach(var category in Model.Categories)
                         {
-                            <li>
-                                <a asp-controller="Product" asp-action="ProductList" asp-route-SubCategoryId="@subcategory.SubCategoryId">@subcategory.SubCategoryName</a>
+                            <li class="category-item">
+                                <a href="">@category.CategoryName</a>
+                                @if(category.SubCategories.Any())
+                                {
+                                    <ul class="subCategories-list">
+                                    @foreach(var subcategory in category.SubCategories)
+                                    {
+                                        <li>
+                                            <a asp-controller="Product" asp-action="ProductList" asp-route-SubCategoryId="@subcategory.SubCategoryId">@subcategory.SubCategoryName</a>
+                                        </li>
+                                    }
+                                    </ul>
+                                }
                             </li>
                         }
                     </ul>
-                }
-            </li>
-        }
-    </ul>
-</div>
+                </div>
             </div>
         </div>
-        <div class="col-9"></div>
+        <div class="col-9">
+            <img src="https://book365.vn/upload/uf/148/d6fv7g2tyegvcz9xbsghsy80db0h4ca1.png" alt="" class="w-100">
+        </div>
     </div>
     <div class="publisher">
         <ul class="publishers-list">
@@ -55,11 +57,8 @@
                         <p class="item-title">@product.Title</p>
                         <a href="#" class="item-author">@product.Author</a>
                         <p class="item-price">
-                        <span class="price-new">@product.PriceNew</span>
-                        @if (product.Discount > 0)
-                        {
-                            <span class="price-old">@product.PriceNew - @(product.PriceNew * product.Discount)</span>
-                        }
+                        <span class="price-new">@product.PriceNew.ToString("C")</span>
+                        
                         </p>
                     </div>
                     </a>
@@ -81,11 +80,8 @@
                         <p class="item-title">@product.Title</p>
                         <a href="#" class="item-author">@product.Author</a>
                         <p class="item-price">
-                        <span class="price-new">@product.PriceNew</span>
-                        @if (product.Discount > 0)
-                        {
-                            <span class="price-old">@product.PriceNew - @(product.PriceNew * product.Discount)</span>
-                        }
+                        <span class="price-new">@product.PriceNew.ToString("C")</span>
+                        
                         </p>
                     </div>
                     </a>

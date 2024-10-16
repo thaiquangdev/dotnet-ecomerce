@@ -42,5 +42,40 @@ namespace asp_mvc.Controllers.Admin
             }
             return View(model);
         }
+
+         // Hiển thị form Edit Role
+    [HttpGet]
+    [Route("Admin/Role/Edit")]
+    public IActionResult Edit(int id)
+    {
+        var role = _db.Roles.FirstOrDefault(r => r.RoleId == id);
+        if (role == null)
+        {
+            return NotFound();
+        }
+        return View(role);
+    }
+
+    // Xử lý post để cập nhật role
+    [HttpPost]
+    [Route("Admin/Role/Edit")]
+    [ValidateAntiForgeryToken]
+    public IActionResult Edit(Role role)
+    {
+        if (ModelState.IsValid)
+        {
+            var roleInDb = _db.Roles.FirstOrDefault(r => r.RoleId == role.RoleId);
+            if (roleInDb == null)
+            {
+                return NotFound();
+            }
+
+            // Cập nhật thông tin role
+            roleInDb.RoleName = role.RoleName;
+            _db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+        return View(role);
+    }
     }
 }

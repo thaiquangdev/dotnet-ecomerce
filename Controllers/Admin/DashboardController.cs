@@ -1,31 +1,41 @@
-using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using asp_mvc.Models;
+using asp_mvc.Data;
 
 namespace asp_mvc.Controllers.Admin;
 
 public class DashboardController : Controller
 {
-    private readonly ILogger<DashboardController> _logger;
+    private readonly ApplicationDbContext _db;
 
-    public DashboardController(ILogger<DashboardController> logger)
-    {
-        _logger = logger;
-    }
+        public DashboardController(ApplicationDbContext db)
+        {
+            _db = db;
+        }
 
-    public IActionResult Index()
-    {
-        return View();
-    }
+    
 
-    public IActionResult Privacy()
-    {
-        return View();
-    }
+    [Route("Admin/Dashboard/Index")]
+        public IActionResult Index()
+        {
+            var totalUsers = _db.Users.Count();
 
-    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public IActionResult Error()
-    {
-        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-    }
+            
+
+            var totalOrders = _db.Carts.Count();
+
+            var pendingOrders = _db.Carts.Count(c => c.Status == "Pending");
+
+            var totalRevenue = _db.Carts.Sum(c => c.TotalPrice);
+
+
+            var statistics = new
+            {
+                TotalUsers = totalUsers,
+                TotalOrders = totalOrders,
+                PendingOrders = pendingOrders,
+                TotalRevenue = totalRevenue,
+            };
+
+            return View(statistics); 
+        }
 }

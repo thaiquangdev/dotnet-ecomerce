@@ -18,17 +18,23 @@
             {
                 <tr>
                     <td>@cart.CartId</td>
-                    <td>@cart.User.UserName</td> <!-- Tên người mua -->
-                    <td>@cart.TotalPrice</td>
+                    <td>@cart.User?.UserName</td> 
+                    <td>@cart.TotalPrice.ToString("C")</td> 
                     <td>@cart.CreatedAt.ToString("dd/MM/yyyy")</td>
-                    <td>@cart.Status</td>
+                    <td>
+                        <span >
+                            @cart.Status
+                        </span>
+                    </td>
                     <td>
                         <!-- Hiển thị chi tiết sản phẩm trong đơn hàng -->
                         <ul>
                             @foreach (var item in cart.CartItems)
                             {
                                 <li>
-                                    Sản phẩm: @item.Product.Title - Số lượng: @item.Quantity - Giá: @item.Price
+                                    <strong>Product:</strong> @item.Product.Title - 
+                                    <strong>Quantity:</strong> @item.Quantity - 
+                                    <strong>Price:</strong> @item.Price.ToString("C")
                                 </li>
                             }
                         </ul>

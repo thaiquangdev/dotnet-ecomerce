@@ -42,6 +42,17 @@ namespace asp_mvc.Controllers.Public
         }
 
         [HttpGet]
+        [Route("Public/Product/Search")]
+    public IActionResult Search(string searchTerm)
+    {
+        var products = _db.Products
+            .Where(p => p.Title.Contains(searchTerm) || p.Description.Contains(searchTerm))
+            .ToList();
+        
+        return View(products);
+    }
+
+        [HttpGet]
         [Route("Public/Product/ProductDetail")]
         public IActionResult ProductDetail(int? ProductId)
         {
